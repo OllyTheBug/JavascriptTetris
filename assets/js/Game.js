@@ -39,6 +39,10 @@ class Game {
             if (e.keyCode === 39) {
                 game.setInput('right');
             }
+            //if the key is down
+            if (e.keyCode === 40) {
+                game.setInput('drop');
+            }
             //if z is pressed
             if (e.keyCode === 90) {
                 game.setInput('ccw');

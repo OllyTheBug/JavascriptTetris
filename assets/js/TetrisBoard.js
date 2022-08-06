@@ -107,6 +107,10 @@ class TetrisBoard {
                 this._rotateTetronimo(this.actionBuffer);
             }
         }
+        //if the next action is dropping
+        if (this.actionBuffer === 'drop') {
+            this._dropTetronimo(this.activeTetronimo);
+        }
         this.actionBuffer = '';
     }
     _moveTetronimo(tetronimo, direction) {
@@ -126,10 +130,10 @@ class TetrisBoard {
         rotate(this.activeTetronimo, direction);
     }
 
-    _dropTetronimo() {
+    _dropTetronimo(tetronimo) {
         //lower while the tetronimo won't collide
-        while (!this._willCollide(this.activeTetronimo, 'lower')) {
-            this._lowerTetronimo(this.activeTetronimo);
+        while (!this._willCollide(tetronimo, 'lower')) {
+            this._lowerTetronimo(tetronimo);
         }
     }
     _lowerTetronimo(tetronimo) {
