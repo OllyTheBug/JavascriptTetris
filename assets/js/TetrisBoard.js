@@ -104,7 +104,7 @@ class TetrisBoard {
         if (this.actionBuffer === 'cw' || this.actionBuffer === 'ccw') {
             //if it won't collide, rotate it
             if (!this._willCollide(this.activeTetronimo, this.actionBuffer)) {
-                this._rotateTetronimo(this.actionBuffer);
+                this._rotateTetronimo(this.activeTetronimo, this.actionBuffer);
             }
         }
         //if the next action is dropping
@@ -125,9 +125,9 @@ class TetrisBoard {
                 throw new Error('Invalid direction');
         }
     }
-    _rotateTetronimo(direction) {
+    _rotateTetronimo(tetronimo, direction) {
         //rotate defined in Tetronimos.js
-        rotate(this.activeTetronimo, direction);
+        rotate(tetronimo, direction);
     }
 
     _dropTetronimo(tetronimo) {
@@ -141,8 +141,10 @@ class TetrisBoard {
     }
     _lockTetronimo() {
         this._addTetronimoToBoard();
-        //this._clearLines();
         this.activeTetronimo = null;
+        this._clearLines();
+
+        
     }
     /* -------------------------------- Collision -------------------------------- */
     _willCollide(tetronimo, action) {
@@ -192,6 +194,32 @@ class TetrisBoard {
         }
     }
     /* ----------------------------- Board functions ---------------------------- */
+    _clearLines() {
+        //for row in grid
+        for (let row = 0; row < this.height; row++) {
+            //if all the columns in the row are 1, clear the row
+            if (this.grid[row].every(col => col === 1)) {
+                this._clearRow(row);
+            }
+        }
+    }
+
+    _clearRow(row) {
+        //for col in grid[row]
+        for (let col = 0; col < this.width; col++) {
+            //set the grid[row][col] to 0
+            this.grid[row][col] = 0;
+        }
+        //for row in grid
+        for (let row = row; row > 0; row--) {
+            //for col in grid[row]
+            for (let col = 0; col < this.width; col++) {
+                //set the grid[row][col] to the grid[row-1][col]
+                this.grid[row][col] = this.grid[row - 1][col];
+            }
+        }
+    }
+
     _updateBoard() {
         this._drawBoard();
         if (this.activeTetronimo !== null) {
