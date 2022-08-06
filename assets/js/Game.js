@@ -11,7 +11,7 @@ class Game {
             console.log(`tick ${this.tickCount}`);
 
             this.tick();
-        }, 500);
+        }, 100);
     }
     tick() {
 

@@ -11,61 +11,62 @@ function createTetronimo(x, y, type) {
     switch(type) {
         case 'square':
             tetronimo.shape = [
-                "11",
-                "11",
+                "##",
+                "##",
             ];
             tetronimo.color = "red";
             break;
         case 'line':
             tetronimo.shape = [
-                "1",
-                "1",
-                "1",
-                "1"
+                "#",
+                "#",
+                "#",
+                "#"
             ];
             tetronimo.color = "blue";
             break;
         case 'l':
             tetronimo.shape = [
-                "1",
-                "1",
-                "11",
+                "#",
+                "#",
+                "##",
 
             ];
             tetronimo.color = "orange";
             break;
         case 'j':
             tetronimo.shape = [
-                ".1",
-                ".1",
-                "11",
+                ".#",
+                ".#",
+                "##",
 
             ];
             tetronimo.color = "yellow";
             break;
         case 's':
             tetronimo.shape = [
-                "1",
-                "11",
-                ".1",
+                "#",
+                "##",
+                ".#",
                 
             ];
             tetronimo.color = "pink";
             break;
         case 'z':
             tetronimo.shape = [
-                ".1",
-                "11",
-                "1",
+                ".#",
+                "##",
+                "#",
             ];
             tetronimo.color = "green";
             break;
         case 't':
             tetronimo.shape = [
-                ".1",
-                "111",
+                ".#",
+                "###",
                 
             ]
+            tetronimo.color = "purple";
         default:
             break;
     }

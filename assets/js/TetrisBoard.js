@@ -1,5 +1,5 @@
 class TetrisBoard {
-    constructor(width = 10, height = 20) {
+    constructor(width = 10, height = 19) {
         this.width = width;
         this.height = height;
         this.grid = [];
@@ -23,7 +23,6 @@ class TetrisBoard {
     }
     /* -------------------------------- Main loop ------------------------------- */
     tock(tickCount) {
-        ;
         // add a new tetronimo if there is no active tetronimo
         if (this.activeTetronimo === null) {
             // newTetronimo returns death if the tetronimo immediately collides with the board
@@ -31,7 +30,7 @@ class TetrisBoard {
         }
         // handeTetronimo calls functions to move/rotate it, lower it, and check for collisions.
         this._handleTetronimo(tickCount);
-        this._drawBoard();
+        this._updateBoard();
         return this.fate;
     }
 
@@ -84,8 +83,8 @@ class TetrisBoard {
         //If the tetronimo won't collide from lowering
         if (!this._willCollide(this.activeTetronimo, 'lower')) {
             //if enough time has passed to lower the tetronimo
-            if (tickCount % 10 === 0) {
-                this._lowerTetronimo();
+            if (tickCount % 5 === 0) {
+                this._lowerTetronimo(this.activeTetronimo);
             }
         } else {
             //wait 500ms then lock it in place
@@ -97,7 +96,7 @@ class TetrisBoard {
         if (this.actionBuffer === 'left' || this.actionBuffer === 'right') {
             //if it won't collide, shift it
             if (!this._willCollide(this.activeTetronimo, this.actionBuffer)) {
-                this._moveTetronimo(this.actionBuffer);
+                this._moveTetronimo(this.activeTetronimo, this.actionBuffer);
             }
         }
         //if the next action is rotating
@@ -108,14 +107,15 @@ class TetrisBoard {
                 this._rotateTetronimo(this.actionBuffer);
             }
         }
+        this.actionBuffer = '';
     }
-    _moveTetronimo(direction) {
+    _moveTetronimo(tetronimo, direction) {
         switch (direction) {
             case 'left':
-                this.activeTetronimo.x--;
+                tetronimo.x--;
                 break;
             case 'right':
-                this.activeTetronimo.x++;
+                tetronimo.x++;
                 break;
             default:
                 throw new Error('Invalid direction');
@@ -129,19 +129,48 @@ class TetrisBoard {
     _dropTetronimo() {
         //lower while the tetronimo won't collide
         while (!this._willCollide(this.activeTetronimo, 'lower')) {
-            this._lowerTetronimo();
+            this._lowerTetronimo(this.activeTetronimo);
         }
     }
-    _lowerTetronimo() {
-        this.activeTetronimo.y++;
+    _lowerTetronimo(tetronimo) {
+        tetronimo.y++;
     }
     _lockTetronimo() {
         this._addTetronimoToBoard();
-        this._clearLines();
+        //this._clearLines();
         this.activeTetronimo = null;
     }
     /* -------------------------------- Collision -------------------------------- */
-    _willCollide(tetronimo, action) { }
+    _willCollide(tetronimo, action) {
+        //copy the active tetronimo
+        let tetronimoCopy = { ...tetronimo };
+        //move the tetronimo copy and see if it collides
+        switch (action) {
+            case 'left':
+                this._moveTetronimo(tetronimoCopy, 'left');
+                break;
+            case 'right':
+                this._moveTetronimo(tetronimoCopy, 'right');
+                break;
+            case 'cw':
+                this._rotateTetronimo(tetronimoCopy, 'cw');
+                break;
+            case 'ccw':
+                this._rotateTetronimo(tetronimoCopy, 'ccw');
+                break;
+            case 'lower':
+                this._lowerTetronimo(tetronimoCopy);
+                break;
+            default:
+                throw new Error('Invalid action');
+        }
+        //check for collision
+        return this._isColliding(tetronimoCopy);
+
+
+
+    }
+
     _isColliding(tetronimo) {
         // for row, col in activeTetronimo.shape
         for (let row = 0; row < tetronimo.shape.length; row++) {
@@ -159,7 +188,7 @@ class TetrisBoard {
         }
     }
     /* ----------------------------- Board functions ---------------------------- */
-    _updateBoard(){
+    _updateBoard() {
         this._drawBoard();
         this._drawTetronimo();
     }
@@ -204,7 +233,10 @@ class TetrisBoard {
                 //if the grid is at that position
                 if (this.grid[row][col] === 1) {
                     //fill in the grid
-                    this.gridElement.children[row * this.width + col].style.backgroundColor = '#fff';
+                    document.getElementById(`${row}-${col}`).style.backgroundColor = '#fff';
+                }
+                else {
+                    document.getElementById(`${row}-${col}`).style.backgroundColor = '#212529';
                 }
             }
         }
@@ -219,9 +251,10 @@ class TetrisBoard {
                 //if the tetronimo is at that position
                 if (this.activeTetronimo.shape[row][col] === '#') {
                     //color #{activeTetronimo.y}-#{activeTetronimo.x} the color of the active tetronimo
-                    let cell = this.gridElement.getElementById(`${this.activeTetronimo.y + row}-${this.activeTetronimo.x + col}`);
-                    //cell.style.backgroundColor = this.activeTetronimo.color;
-                    cell.addClass('tetronimo');
+                    let cell = document.getElementById(`${this.activeTetronimo.y + row}-${this.activeTetronimo.x + col}`);
+                    cell.style.backgroundColor = this.activeTetronimo.color;
+                    cell.classList.add('tetronimo');
+                    console.log('added class')
                 }
             }
         }
