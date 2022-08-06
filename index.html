@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="assets/css/bootstrap.css">
+    <link rel="stylesheet" href="assets/css/custom.css">
+    <title>Document</title>
+</head>
+<body style="--bs-body-bg: Dark;">
+    <div class="navbarDiv" style="height:20px;">
+        <nav class="navbar navbar-dark fixed-top bg-dark">
+            <div class="container"><a class="navbar-brand" href="#">Brand</a><button class="navbar-toggler collapsed" data-bs-toggle="collapse" data-bs-target="#navcol-1"><span class="visually-hidden">Toggle navigation</span><span class="navbar-toggler-icon"></span></button>
+                <div id="navcol-1" class="collapse navbar-collapse text-center">
+                    <ul class="navbar-nav">
+                        <li class="nav-item"><a class="nav-link" href="#">First Item</a></li>
+                        <li class="nav-item"><a class="nav-link" href="#">Second Item</a></li>
+                        <li class="nav-item"><a class="nav-link" href="#">Third Item</a></li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </div>
+
+    <div id="tetrisContainer" class="container" style="border-radius: 0px;margin: auto;margin-top: 0px;">
+        <div id="tetrisPanel" style="margin-right: auto;height: 630px;margin-left: auto;margin-top: 10vh;width: 325px;border-radius: 20px;border: 12px solid var(--bs-yellow);background-color: var(--bs-gray-900);">
+            <div class="card" style="background-color: var(--bs-gray-800);color: var(--bs-yellow);">
+                <div class="card-body" style="height: 54.2344px;filter: contrast(105%);">
+                    <h4 class="card-title" style="font-family: Aldrich, sans-serif;">Score:</h4>
+                </div>
+            </div>
+            <div id="tetrisDiv" style="height: 100%; display:grid;"></div>
+        </div>
+    </div>
+
+<script src="./assets/js/Tetronimos.js"></script>
+<script src="./assets/js/TetrisBoard.js"></script>
+<script src="./assets/js/Game.js"></script>
+
+</body>
+</html>
