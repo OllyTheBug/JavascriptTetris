@@ -40,7 +40,7 @@ class TetrisBoard {
 
     /* -------------------------------- Creation -------------------------------- */
     _newTetronimo() {
-        this.activeTetronimo = this.nextTetronimo;
+        this.activeTetronimo = this._getRandomTetronimo();
         this.nextTetronimo = this._getRandomTetronimo();
         this.activeTetronimo.x = Math.floor((this.width) / 2);
         this.activeTetronimo.y = 0;
@@ -88,9 +88,9 @@ class TetrisBoard {
             }
         } else {
             //wait 500ms then lock it in place
-            setTimeout(() => {
+            if (!this.activeTetronimo.locked) {
                 this._lockTetronimo();
-            }, 500);
+            }
         }
         //if the next action is shifting
         if (this.actionBuffer === 'left' || this.actionBuffer === 'right') {
@@ -101,7 +101,7 @@ class TetrisBoard {
         }
         //if the next action is rotating
         //TODO: add bounce out of wall
-        if (this.actionBuffer === 'rotate') {
+        if (this.actionBuffer === 'cw' || this.actionBuffer === 'ccw') {
             //if it won't collide, rotate it
             if (!this._willCollide(this.activeTetronimo, this.actionBuffer)) {
                 this._rotateTetronimo(this.actionBuffer);
@@ -190,7 +190,9 @@ class TetrisBoard {
     /* ----------------------------- Board functions ---------------------------- */
     _updateBoard() {
         this._drawBoard();
-        this._drawTetronimo();
+        if (this.activeTetronimo !== null) {
+            this._drawTetronimo();
+        }
     }
 
     _initializeGrid() {
@@ -213,11 +215,11 @@ class TetrisBoard {
     }
     _addTetronimoToBoard() {
         //for row in the length of the tetronimo
-        for (let row = 0; row < this.activeTetronimo.length; row++) {
+        for (let row = 0; row < this.activeTetronimo.shape.length; row++) {
             //for column in the length of the tetronimo
-            for (let column = 0; column < this.activeTetronimo[row].length; column++) {
+            for (let column = 0; column < this.activeTetronimo.shape[row].length; column++) {
                 //if the tetronimo is at that position
-                if (this.activeTetronimo[row][column] === '#') {
+                if (this.activeTetronimo.shape[row][column] === '#') {
                     //add it to the board
                     this.grid[this.activeTetronimo.y + row][this.activeTetronimo.x + column] = 1;
                 }
