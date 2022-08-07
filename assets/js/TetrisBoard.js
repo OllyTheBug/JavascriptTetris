@@ -83,7 +83,7 @@ class TetrisBoard {
         //If the tetronimo won't collide from lowering
         if (!this._willCollide(this.activeTetronimo, 'lower')) {
             //if enough time has passed to lower the tetronimo
-            if (tickCount % 5 === 0) {
+            if (tickCount % 3 === 0) {
                 this._lowerTetronimo(this.activeTetronimo);
             }
         } else {
@@ -144,7 +144,7 @@ class TetrisBoard {
         this.activeTetronimo = null;
         this._clearLines();
 
-        
+
     }
     /* -------------------------------- Collision -------------------------------- */
     _willCollide(tetronimo, action) {
@@ -196,27 +196,29 @@ class TetrisBoard {
     /* ----------------------------- Board functions ---------------------------- */
     _clearLines() {
         //for row in grid
+        let fullRows = [];
         for (let row = 0; row < this.height; row++) {
             //if all the columns in the row are 1, clear the row
             if (this.grid[row].every(col => col === 1)) {
-                this._clearRow(row);
+                fullRows.push(row);
             }
+
+        }
+        //if there are full rows, clear them
+        if (fullRows.length > 0) {
+            this._clearRows(fullRows);
         }
     }
 
-    _clearRow(row) {
-        //for col in grid[row]
-        for (let col = 0; col < this.width; col++) {
-            //set the grid[row][col] to 0
-            this.grid[row][col] = 0;
-        }
-        //for row in grid
-        for (let row = row; row > 0; row--) {
+    _clearRows(fullRows) {
+        //for row in fullRows
+        for (let row = 0; row < fullRows.length; row++) {
             //for col in grid[row]
-            for (let col = 0; col < this.width; col++) {
-                //set the grid[row][col] to the grid[row-1][col]
-                this.grid[row][col] = this.grid[row - 1][col];
-            }
+            //shift the grid down
+            this.grid.splice(fullRows[row], 1);
+            //add a new row to the top of the grid
+            this.grid.unshift(new Array(this.width).fill(0));
+
         }
     }
 
@@ -270,7 +272,12 @@ class TetrisBoard {
                     document.getElementById(`${row}-${col}`).style.backgroundColor = '#fff';
                 }
                 else {
-                    document.getElementById(`${row}-${col}`).style.backgroundColor = '#212529';
+                    if (row <= 2) {
+                        document.getElementById(`${row}-${col}`).style.backgroundColor = '#383838';
+                    }
+                    else {
+                        document.getElementById(`${row}-${col}`).style.backgroundColor = '#212529';
+                    }
                 }
             }
         }
