@@ -3,8 +3,9 @@ class TetrisBoard {
         this.width = width;
         this.height = height;
         this.grid = [];
+        this.ghostTetronimo = null;
         this.activeTetronimo = null;
-        this.nextTetronimo = null;
+        //this.nextTetronimo = null;
         this.actionBuffer = '';
         this.score = 0;
         this.level = 1;
@@ -12,6 +13,7 @@ class TetrisBoard {
         this.fate = 'life';
         this.tockCount = 0;
         this.gridElement = document.getElementById('tetrisDiv');
+        this.scoreElement = document.getElementById('score');
         this._init();
     }
     _init() {
@@ -41,7 +43,7 @@ class TetrisBoard {
     /* -------------------------------- Creation -------------------------------- */
     _newTetronimo() {
         this.activeTetronimo = this._getRandomTetronimo();
-        this.nextTetronimo = this._getRandomTetronimo();
+        //this.nextTetronimo = this._getRandomTetronimo();
         this.activeTetronimo.x = Math.floor((this.width) / 2);
         this.activeTetronimo.y = 0;
         if (this._isColliding(this.activeTetronimo)) {
@@ -112,6 +114,7 @@ class TetrisBoard {
             this._dropTetronimo(this.activeTetronimo);
         }
         this.actionBuffer = '';
+        
     }
     _moveTetronimo(tetronimo, direction) {
         switch (direction) {
@@ -143,6 +146,7 @@ class TetrisBoard {
         this._addTetronimoToBoard();
         this.activeTetronimo = null;
         this._clearLines();
+        this._updateScore();
 
 
     }
@@ -194,6 +198,16 @@ class TetrisBoard {
         }
     }
     /* ----------------------------- Board functions ---------------------------- */
+    _drawGhostTetronimo() {
+        //copy the active tetronimo
+        this.ghostTetronimo = { ...this.activeTetronimo };
+        this.ghostTetronimo.color = 'rgba(255, 255, 255, 0.2)';
+        //move the tetronimo copy and see if it collides
+        this._dropTetronimo(this.ghostTetronimo);
+        //draw the tetronimo copy
+        this._drawTetronimo(this.ghostTetronimo);
+    }
+
     _clearLines() {
         //for row in grid
         let fullRows = [];
@@ -201,6 +215,8 @@ class TetrisBoard {
             //if all the columns in the row are 1, clear the row
             if (this.grid[row].every(col => col === 1)) {
                 fullRows.push(row);
+                //for each full row add 100 to the score
+                this.score += 100;
             }
 
         }
@@ -225,7 +241,8 @@ class TetrisBoard {
     _updateBoard() {
         this._drawBoard();
         if (this.activeTetronimo !== null) {
-            this._drawTetronimo();
+            this._drawTetronimo(this.activeTetronimo);
+            this._drawGhostTetronimo();
         }
     }
 
@@ -283,17 +300,17 @@ class TetrisBoard {
         }
     }
 
-    _drawTetronimo() {
+    _drawTetronimo(tetronimo) {
         //draw the active tetronimo to the grid
         //for row in activeTetronimo.shape
-        for (let row = 0; row < this.activeTetronimo.shape.length; row++) {
+        for (let row = 0; row < tetronimo.shape.length; row++) {
             // for col in row
-            for (let col = 0; col < this.activeTetronimo.shape[row].length; col++) {
+            for (let col = 0; col < tetronimo.shape[row].length; col++) {
                 //if the tetronimo is at that position
-                if (this.activeTetronimo.shape[row][col] === '#') {
+                if (tetronimo.shape[row][col] === '#') {
                     //color #{activeTetronimo.y}-#{activeTetronimo.x} the color of the active tetronimo
-                    let cell = document.getElementById(`${this.activeTetronimo.y + row}-${this.activeTetronimo.x + col}`);
-                    cell.style.backgroundColor = this.activeTetronimo.color;
+                    let cell = document.getElementById(`${tetronimo.y + row}-${tetronimo.x + col}`);
+                    cell.style.backgroundColor = tetronimo.color;
                     cell.classList.add('tetronimo');
                     console.log('added class')
                 }
@@ -301,5 +318,8 @@ class TetrisBoard {
         }
 
     }
-
+    _updateScore() {
+        this.scoreElement.innerHTML = `Score: ${this.score}`;
+    }
 }
+
