@@ -26,8 +26,8 @@ function setup() {
 function draw() {
     if (backgroundAnimation == false){
         //set canvas style to hidden
-        c.style('display', 'none');
-        noLoop();
+        hideCanvas();
+        //noLoop();
     }
     background(56, 56, 56);
     //transparent background
@@ -80,4 +80,10 @@ class BackgroundTetronimo {
             }
         }
     }
+}
+function hideCanvas(){
+    c.style('display', 'none');
+}
+function showCanvas(){
+    c.style('display', 'block');
 }

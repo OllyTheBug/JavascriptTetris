@@ -6,6 +6,7 @@ class Game {
         this.level = 1;
         this.tickCount = 0;
         this.addInputListener();
+        this.fate = 'life';
     }
     start() {
         backgroundAnimation = false;
@@ -19,21 +20,25 @@ class Game {
     }
     tick() {
 
-            let fate = this.Tboard.tock(this.tickCount);
-            if (fate === 'death') {
-                console.log('death');
-                //cancel the interval
-                clearInterval(this.interval);
+        this.fate = this.Tboard.tock(this.tickCount);
+        if (this.fate === 'death') {
+            running = false;
+            console.log('death');
+            //cancel the interval
+            clearInterval(this.interval);
 
-                //reset the game
+            //reset the game
+            setTimeout(() => {
                 this.resetGame();
-            }
-        
+            }, 3000);
+        }
+
     }
     resetGame() {
         this.Tboard = new TetrisBoard(10, 20);
         this.level = 1;
         this.tickCount = 0;
+        this.fate = 'life';
         game.start();
     }
 
@@ -44,7 +49,7 @@ class Game {
     addInputListener() {
 
         document.addEventListener('keydown', (e) => {
-            if (running === false){
+            if (running === false) {
                 game.start();
             }
             //if the key is left
@@ -74,7 +79,7 @@ class Game {
 }
 
 document.addEventListener('keydown', (e) => {
-    if (running === false){
+    if (running === false) {
         game = new Game();
         game.addInputListener();
         game.start();
