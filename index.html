@@ -8,11 +8,26 @@
     <link rel="stylesheet" href="assets/css/bootstrap.css">
     <link rel="stylesheet" href="assets/css/custom.css">
     <!-- jquery -->
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"
+        integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
     <!-- p5js -->
     <script src="https://cdn.jsdelivr.net/npm/p5@1.3.1/lib/p5.js"></script>
     <title>Document</title>
 </head>
+<style>
+    #tetrisPanel {
+        overflow: hidden;
+        margin-right: auto;
+        height: 630px;
+        margin-left: auto;
+        margin-top: 10vh;
+        width: 325px;
+        border-radius: 20px;
+        border: 12px solid var(--bs-yellow);
+        background-color: var(--bs-gray-900);
+        caret-color: transparent;
+    }
+</style>
 
 <body style="--bs-body-bg: Dark;">
     <div class="navbarDiv" style="height:20px;">
@@ -32,8 +47,7 @@
     </div>
 
     <div id="tetrisContainer" class="container" style="border-radius: 0px;margin: auto;margin-top: 0px;">
-        <div id="tetrisPanel"
-            style="overflow: hidden; margin-right: auto;height: 630px;margin-left: auto;margin-top: 10vh;width: 325px;border-radius: 20px;border: 12px solid var(--bs-yellow);background-color: var(--bs-gray-900);">
+        <div id="tetrisPanel">
             <div class="card" style="background-color: var(--bs-gray-800);color: var(--bs-yellow);">
                 <div class="card-body" style="height: 54.2344px;filter: contrast(105%);">
                     <h4 class="card-title" id="score" style="font-family: Aldrich, sans-serif;">Score:</h4>
@@ -45,7 +59,7 @@
 
     <script src="./assets/js/Tetronimos.js"></script>
     <script src="./assets/js/TetrisBoard.js"></script>
-    <!--<script src="./assets/js/Game.js"></script> -->
+    <script src="./assets/js/Game.js"></script>
     <script src="./assets/js/background.js"></script>
 
 </body>

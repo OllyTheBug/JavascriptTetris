@@ -77,7 +77,7 @@ function createTetronimo(x, y, type) {
     return tetronimo;
 }
 
-function rotate(tetronimo, direction) {
+function Trotate(tetronimo, direction) {
     if (direction === 'cw') {
         tetronimo.rotation++;
 

@@ -1,10 +1,11 @@
 let tetronimos = [];
+let dummyTboard = new TetrisBoard(0,0);
 let w, h;
-
+let c;
 function setup() {
     w = $("#tetrisContainer").width();
     h = $("#tetrisContainer").height();
-    let c = createCanvas(w, h);
+    c = createCanvas(w, h);
     c.parent('#tetrisContainer');
     c.style('width', '100%');
     c.style('height', 'auto');
@@ -23,6 +24,11 @@ function setup() {
 }
 
 function draw() {
+    if (backgroundAnimation == false){
+        //set canvas style to hidden
+        c.style('display', 'none');
+        noLoop();
+    }
     background(56, 56, 56);
     //transparent background
     for (let i = 0; i < tetronimos.length; i++) {
@@ -35,7 +41,7 @@ function draw() {
 
 class BackgroundTetronimo {
     constructor() {
-        this.data = TetrisBoard._getRandomTetronimo();
+        this.data = dummyTboard._getRandomTetronimo();
         this.r = random(255);
         this.g = random(255);
         this.b = random(255);
@@ -58,7 +64,10 @@ class BackgroundTetronimo {
         this.data.x = random(w - 120);
         this.size = random(10, 30);
     }
+    hide(){
+        this.data.y = -120;
 
+    }
     display() {
         //draw 4x4 grid of squares
         for (let row = 0; row < 4; row++) {

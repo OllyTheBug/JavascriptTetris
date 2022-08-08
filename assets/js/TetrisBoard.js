@@ -52,7 +52,7 @@ class TetrisBoard {
         return 'life';
     }
 
-    static _getRandomTetronimo() {
+    _getRandomTetronimo() {
         let random = Math.floor(Math.random() * 7);
         switch (random) {
             //tetronimo types from Tetrominos.js
@@ -130,7 +130,7 @@ class TetrisBoard {
     }
     _rotateTetronimo(tetronimo, direction) {
         //rotate defined in Tetronimos.js
-        rotate(tetronimo, direction);
+        Trotate(tetronimo, direction);
     }
 
     _dropTetronimo(tetronimo) {
@@ -154,6 +154,7 @@ class TetrisBoard {
     _willCollide(tetronimo, action) {
         //copy the active tetronimo
         let tetronimoCopy = { ...tetronimo };
+        //if tetronimoCopy is null or undefined, return
         //move the tetronimo copy and see if it collides
         switch (action) {
             case 'left':
@@ -183,6 +184,10 @@ class TetrisBoard {
 
     _isColliding(tetronimo) {
         // for row, col in activeTetronimo.shape
+        //if tetronimo is null or undefined, it's obviously not colliding
+        if (!tetronimo) {
+            return false;
+        }
         for (let row = 0; row < tetronimo.shape.length; row++) {
             //for col in row
             for (let col = 0; col < tetronimo.shape[row].length; col++) {
@@ -241,8 +246,9 @@ class TetrisBoard {
     _updateBoard() {
         this._drawBoard();
         if (this.activeTetronimo !== null) {
-            this._drawTetronimo(this.activeTetronimo);
             this._drawGhostTetronimo();
+            this._drawTetronimo(this.activeTetronimo);
+            
         }
     }
 
@@ -312,7 +318,7 @@ class TetrisBoard {
                     let cell = document.getElementById(`${tetronimo.y + row}-${tetronimo.x + col}`);
                     cell.style.backgroundColor = tetronimo.color;
                     cell.classList.add('tetronimo');
-                    console.log('added class')
+                    //console.log('added class')
                 }
             }
         }

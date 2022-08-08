@@ -1,4 +1,5 @@
 let backgroundAnimation = true;
+running = false;
 class Game {
     constructor() {
         this.Tboard = new TetrisBoard(10, 20);
@@ -8,9 +9,10 @@ class Game {
     }
     start() {
         backgroundAnimation = false;
+        running = true;
         this.interval = setInterval(() => {
             this.tickCount++;
-            console.log(`tick ${this.tickCount}`);
+            //console.log(`tick ${this.tickCount}`);
 
             this.tick();
         }, 100);
@@ -41,6 +43,9 @@ class Game {
     addInputListener() {
 
         document.addEventListener('keydown', (e) => {
+            if (running === false){
+                game.start();
+            }
             //if the key is left
             if (e.keyCode === 37) {
                 game.setInput('left');
@@ -67,6 +72,13 @@ class Game {
     }
 }
 
-game = new Game();
-game.addInputListener();
-game.start();
+document.addEventListener('keydown', (e) => {
+    if (running === false){
+        game = new Game();
+        game.addInputListener();
+        game.start();
+    }
+});
+
+
+//game.start();
