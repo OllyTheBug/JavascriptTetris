@@ -52,7 +52,7 @@ class TetrisBoard {
         return 'life';
     }
 
-    _getRandomTetronimo() {
+    static _getRandomTetronimo() {
         let random = Math.floor(Math.random() * 7);
         switch (random) {
             //tetronimo types from Tetrominos.js

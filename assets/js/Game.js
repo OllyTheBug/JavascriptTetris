@@ -1,3 +1,4 @@
+let backgroundAnimation = true;
 class Game {
     constructor() {
         this.Tboard = new TetrisBoard(10, 20);
@@ -6,6 +7,7 @@ class Game {
         this.addInputListener();
     }
     start() {
+        backgroundAnimation = false;
         this.interval = setInterval(() => {
             this.tickCount++;
             console.log(`tick ${this.tickCount}`);
