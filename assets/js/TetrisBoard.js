@@ -46,6 +46,7 @@ class TetrisBoard {
         //this.nextTetronimo = this._getRandomTetronimo();
         this.activeTetronimo.x = Math.floor((this.width) / 2);
         this.activeTetronimo.y = 0;
+        console.log('calling is colliding in new tetronimo');
         if (this._isColliding(this.activeTetronimo)) {
             return 'death';
         }
@@ -81,8 +82,13 @@ class TetrisBoard {
         this.actionBuffer = action;
     }
     _handleTetronimo(tickCount) {
+        //log if active tetronimo is null
+        if (this.activeTetronimo === null) {
+            console.log('active tetronimo is null');
+        }
         //TODO: implement levels
         //If the tetronimo won't collide from lowering
+        console.log('calling will collide in handle tetronimo');
         if (!this._willCollide(this.activeTetronimo, 'lower')) {
             //if enough time has passed to lower the tetronimo
             if (tickCount % 3 === 0) {
@@ -92,6 +98,7 @@ class TetrisBoard {
             //wait 500ms then lock it in place
             if (!this.activeTetronimo.locked) {
                 this._lockTetronimo();
+                return;
             }
         }
         //if the next action is shifting
@@ -185,9 +192,6 @@ class TetrisBoard {
     _isColliding(tetronimo) {
         // for row, col in activeTetronimo.shape
         //if tetronimo is null or undefined, it's obviously not colliding
-        if (!tetronimo) {
-            return false;
-        }
         for (let row = 0; row < tetronimo.shape.length; row++) {
             //for col in row
             for (let col = 0; col < tetronimo.shape[row].length; col++) {
@@ -208,6 +212,7 @@ class TetrisBoard {
         this.ghostTetronimo = { ...this.activeTetronimo };
         this.ghostTetronimo.color = 'rgba(255, 255, 255, 0.2)';
         //move the tetronimo copy and see if it collides
+        console.log('calling _dropTetronimo in _drawGhostTetronimo')
         this._dropTetronimo(this.ghostTetronimo);
         //draw the tetronimo copy
         this._drawTetronimo(this.ghostTetronimo);
