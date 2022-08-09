@@ -17,15 +17,27 @@
 <style>
     #tetrisPanel {
         overflow: hidden;
-        margin-right: auto;
-        height: 630px;
-        margin-left: auto;
-        margin-top: 10vh;
+
         width: 325px;
-        border-radius: 20px;
+        height: 630px;
+        margin-top: 10vh;
+        margin-right: auto;
+        margin-left: auto;
+
         border: 12px solid var(--bs-yellow);
+        border-radius: 20px;
         background-color: var(--bs-gray-900);
+
         caret-color: transparent;
+    }
+    #start-and-instructions{
+        margin-top: 30%;
+    }
+    #start-and-instructions>.card {
+        margin: 10px;
+
+        color: #000;
+        background: #ffb800;
     }
 </style>
 
@@ -47,13 +59,29 @@
     </div>
 
     <div id="tetrisContainer" class="container" style="border-radius: 0px;margin: auto;margin-top: 0px;">
+
         <div id="tetrisPanel">
             <div class="card" style="background-color: var(--bs-gray-800);color: var(--bs-yellow);">
-                <div class="card-body" style="height: 54.2344px;filter: contrast(105%);">
+                <div class="card-body" style="height: 54.2344px;">
                     <h4 class="card-title" id="score" style="font-family: Aldrich, sans-serif;">Score:</h4>
                 </div>
             </div>
-            <div id="tetrisDiv" style="height: 91%; display:grid;"></div>
+            <!-- ---------------------------- Start screen ----------------------------- -->
+            <div id="start-and-instructions">
+                <div class="card">
+                    <div class="card-header">
+                        <h5 class="mb-0" style="text-align: center;"><strong>Tetris!</strong></h5>
+                    </div>
+                    <div class="card-body">
+                        <p class="card-text"><strong>Move: </strong>Left and right
+                            arrows<br /><strong>Drop:</strong> Down arrow<br /><strong>Rotate: </strong>Z and X
+                            keys<br /><br />Press any key to begin.</p>
+                    </div>
+                </div>
+            </div>
+            <!-- --------------------------- Game container ---------------------------- -->
+            <div id="tetrisDiv" style="height: 91%; display:grid;">
+            </div>
         </div>
     </div>
 

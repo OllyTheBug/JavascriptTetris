@@ -9,6 +9,10 @@ class Game {
         this.fate = 'life';
     }
     start() {
+        // set instructions #start-and-instructions display to none
+        $('#start-and-instructions').css('display', 'none');
+        // set score #score innerHTML to 0
+        $('#score').html("Score: 0");
         backgroundAnimation = false;
         running = true;
         this.interval = setInterval(() => {
@@ -27,12 +31,13 @@ class Game {
             //cancel the interval
             clearInterval(this.interval);
 
-            //reset the game
-            setTimeout(() => {
+                //reset the game
+                setTimeout(() => {
                 this.resetGame();
-            }, 3000);
-        }
-
+                }, 1000);
+                
+            }
+        
     }
     resetGame() {
         this.Tboard = new TetrisBoard(10, 20);
