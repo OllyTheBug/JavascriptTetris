@@ -8,6 +8,10 @@ class Game {
         this.addInputListener();
     }
     start() {
+        // set instructions #start-and-instructions display to none
+        $('#start-and-instructions').css('display', 'none');
+        // set score #score innerHTML to 0
+        $('#score').html("Score: 0");
         backgroundAnimation = false;
         running = true;
         this.interval = setInterval(() => {
@@ -26,7 +30,10 @@ class Game {
                 clearInterval(this.interval);
 
                 //reset the game
+                setTimeout(() => {
                 this.resetGame();
+                }, 1000);
+                
             }
         
     }
