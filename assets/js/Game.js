@@ -30,21 +30,20 @@ class Game {
             console.log('death');
             //cancel the interval
             clearInterval(this.interval);
-
-                //reset the game
-                setTimeout(() => {
-                this.resetGame();
-                }, 1000);
                 
+            this.resetGame();
+               
             }
         
     }
     resetGame() {
+        setTimeout(() => {
         this.Tboard = new TetrisBoard(10, 20);
         this.level = 1;
         this.tickCount = 0;
         this.fate = 'life';
         game.start();
+        }, 1000);
     }
 
     setInput(action) {
